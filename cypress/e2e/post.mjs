@@ -59,7 +59,6 @@ When('the user removes the liked post titled {string}', function (postTitle) {
 When('the user creates a post with random data', function () {
   homePage.clickNewPostBtn();
   postCreationPage.createPost(randomPost.getTitle, randomPost.getSummary, randomPost.getContent);
-  postCreationPage.clickPostSubmitBtn();
 });
 When('the user edits the post with new data', function () {
   homePage.clickProfileBtn();

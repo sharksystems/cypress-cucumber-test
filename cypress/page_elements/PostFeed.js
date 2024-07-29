@@ -21,7 +21,7 @@ export default class PostFeed {
         cy.xpath(`//div[@class='article-preview']//a[contains(.,'${author}')]`).should('be.visible');
     }
     clickPostAuthor(author) {
-        cy.xpath(`//div[@class='article-preview'][1]//a[contains(.,'${author}')]`).click();
+        cy.xpath(`(//a[contains(.,'${author}')])[1]`).click();
     }
     clickPostByAuthor(author) {
         cy.xpath(`//div[@class='article-preview' and contains(.,'${author}')][1]//a[@class='preview-link']`).click();
