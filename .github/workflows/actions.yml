@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Cypress
-        run: npx cypress install
-
       - name: Run Cypress tests
         run: npm run test
       
@@ -38,12 +35,9 @@ jobs:
           name: cypress-videos
           path: cypress/videos
           retention-days: 30
-        
-      - name: Merge Mochawesome reports
-        run: npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json
 
       - name: Generate HTML report
-        run: npx mochawesome-report-generator cypress/reports/merged-report.json -o cypress/reports/merged-report.html
+        run: npm run report
 
       - name: Upload Cypress Report
         uses: actions/upload-artifact@v4
@@ -52,3 +46,10 @@ jobs:
           name: cypress-report
           path: cypress/reports
           retention-days: 30
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./cypress/reports
