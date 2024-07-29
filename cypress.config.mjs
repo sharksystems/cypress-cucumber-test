@@ -12,6 +12,8 @@ export async function setupNodeEvents(on, config) {
 
 export default defineConfig({
   e2e: {
+
+    video: true ,
     viewportWidth: 1280,
     viewportHeight: 720,
 

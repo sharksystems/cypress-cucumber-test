@@ -30,7 +30,15 @@ jobs:
 
       - name: Run Cypress tests
         run: npm run test
-
+      
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 30
+        
       - name: Merge Mochawesome reports
         run: npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json
 
