@@ -1,0 +1,46 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install Cypress
+        run: npx cypress install
+        
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Cypress
+        run: npx cypress install
+
+      - name: Run Cypress tests
+        run: npm run test
+
+      - name: Merge Mochawesome reports
+        run: npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json
+
+      - name: Generate HTML report
+        run: npx mochawesome-report-generator cypress/reports/merged-report.json -o cypress/reports/merged-report.html
+
+      - name: Upload Cypress Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-report
+          path: cypress/reports
+          retention-days: 30
